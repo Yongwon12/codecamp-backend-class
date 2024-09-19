@@ -1,3 +1,4 @@
+// 구조분해할당 방식으로 파라미터 받기
 const getWelcomeTemplate = function ({ name, age, school, createdAt }) {
   const myTemplate = `
     <html>
@@ -17,4 +18,5 @@ const name = "철수";
 const age = 10;
 const school = "공룡초등학교";
 const createdAt = "2024-09-18";
+// short-hand property 방식으로 전달인자 넘겨주기
 getWelcomeTemplate({ name, age, school, createdAt });
