@@ -3,7 +3,6 @@ import {
   welcomeTemplate,
   sendWelcomeTemplateToEmail,
 } from "./email.js";
-import { getToday } from "./utils.js";
 // 이메일 검증하고 가입환영 템플릿을 사용자의 이메일로 전송
 const createUser = function ({ name, age, school, email }) {
   // 1. 이메일이 정상인지 확인(1-존재여부, 2-"@"포함여부)
