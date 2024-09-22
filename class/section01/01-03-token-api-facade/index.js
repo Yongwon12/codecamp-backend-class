@@ -20,7 +20,8 @@ const getPhoneToken = function () {
 const sendPhoneTokenToSMS = function (phoneNumber, phoneToken) {
   console.log(phoneNumber + "번호로 인증번호 " + phoneToken + "를 전송합니다.");
 };
-// 휴대폰 인증 fake API
+
+// 휴대폰 인증 가짜 API
 const createTokenOfPhone = function (phoneNumber) {
   // phoneNumber: 매개변수(Parameter)
   // 1. 휴대폰 번호 자릿수 맞는지 확인하기(10~11자리)
