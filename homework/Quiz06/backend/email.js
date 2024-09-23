@@ -1,5 +1,6 @@
 import { getToday } from "./utils.js";
 import nodemailer from "nodemailer";
+import "dotenv/config";
 export const checkEmail = function (email) {
   if (!email.includes("@" || email === undefined)) {
     return false;
@@ -15,11 +16,12 @@ export const makeTemplate = function (name, prefer, phone) {
             <title>${name}님 가입을 환영합니다.</title>
             </header>
             <body>
+            <h1>${name}님 가입을 환영합니다.</h1>
             <hr />
             <div>이름: ${name}</div>
-            <div>전화번호: ${phone}</div>
-            <div>좋아하는 사이트:${prefer}</div>
-            <div>가입일:${getToday()}</div>
+            <div style=color:blue>전화번호: ${phone}</div>
+            <div style=color:blue>좋아하는 사이트: ${prefer}</div>
+            <div style=color:red>가입일: ${getToday()}</div>
             </body>
 
         </html>
@@ -29,14 +31,15 @@ export const makeTemplate = function (name, prefer, phone) {
 };
 
 export const sendTemplateToEmail = async function (myEmail, template) {
-  let transporter = nodemailer.createTransport({
+  const API_GMAIL_PW = process.env.API_GMAIL_PW;
+  const transporter = await nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "tjaaj159@gmail.com",
-      password: "szcmdoiockaazbzh",
+      pass: API_GMAIL_PW,
     },
   });
-  let sendMail = await transporter.sendMail({
+  const sendMail = await transporter.sendMail({
     from: "tjaaj159@gmail.com",
     to: myEmail,
     subject: "가입을 환영합니다.",

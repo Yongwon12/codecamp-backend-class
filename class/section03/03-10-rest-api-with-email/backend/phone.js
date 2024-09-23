@@ -1,8 +1,6 @@
 import coolsms from "coolsms-node-sdk";
 const mysms = coolsms.default;
-import dotenv from "dotenv";
-const myDotenv = dotenv.config().parsed;
-
+import "dotenv/config";
 // 1. 휴대폰 번호 자릿수 맞는지 확인하기(10~11자리)
 export const phoneNumberCheck = function (phoneNumber) {
   if (phoneNumber.length < 10 || phoneNumber.length > 11) {
@@ -21,9 +19,12 @@ export const getPhoneToken = function () {
   console.log(phoneToken);
   return phoneToken;
 };
+
 // 3. 휴대폰 번호에 토큰 전송하기
 export const sendPhoneTokenToSMS = async function (phoneNumber, phoneToken) {
-  const messageService = new mysms(myDotenv.apiKey, myDotenv.apiSecret);
+  const API_KEY = process.env.API_KEY;
+  const API_SECRET = process.env.API_SECRET;
+  const messageService = new mysms(API_KEY, API_SECRET);
   const res = await messageService.sendOne({
     to: phoneNumber,
     from: "01040428702",

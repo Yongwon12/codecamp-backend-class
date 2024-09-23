@@ -1,5 +1,7 @@
 import { getToday } from "./utils.js";
 import nodemailer from "nodemailer";
+import "dotenv/config";
+
 // 1. 이메일이 정상인지 확인(1-존재여부, 2-"@"포함여부)
 export const checkEmail = function (email) {
   if (!email.includes("@") || email === undefined) {
@@ -37,11 +39,13 @@ export const sendWelcomeTemplateToEmail = async function (
   myEmail,
   welcomePage
 ) {
+  const API_GMAIL_PW = process.env.API_GMAIL_PW;
+
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "tjaaj159@gmail.com",
-      pass: "szcmdoiockaazbzh",
+      pass: API_GMAIL_PW,
     },
   });
 
