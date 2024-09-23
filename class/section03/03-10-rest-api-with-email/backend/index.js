@@ -58,6 +58,7 @@ app.post("/board", function (req, res) {
 
 app.post("/tokens/phone", function (req, res) {
   // phoneNumber: 매개변수(Parameter)
+
   const phoneNumber = req.body.phoneNumber;
   // 1. 휴대폰 번호 자릿수 맞는지 확인하기(10~11자리)
   const isValid = phoneNumberCheck(phoneNumber);
