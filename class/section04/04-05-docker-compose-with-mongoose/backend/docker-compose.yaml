@@ -1,0 +1,17 @@
+version: "3.7"
+
+# 컴퓨터들
+services:
+  # 컴퓨터이름
+  my-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+  # 컴퓨터이름
+  my-database:
+    image: mongo:5
+    # ports:
+    #   - 27017:27017  => 몽고 DB Compass에서 접속 안됨
+    #                  => 하지만, 네임리졸루션으로 express에서는 접속됨

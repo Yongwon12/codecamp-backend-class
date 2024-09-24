@@ -8,6 +8,7 @@ import { checkPhoneNum, getTokenMake } from "./phone.js";
 import { checkEmail, makeTemplate, sendTemplateToEmail } from "./email.js";
 import cors from "cors";
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use("/myApi", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(options)));
@@ -30,6 +31,7 @@ app.post("/phone", function (req, res) {
     console.log("휴대폰 번호를 확인해주세요.");
     return;
   }
+
   getTokenMake();
   res.send("성공");
 });
