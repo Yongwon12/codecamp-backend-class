@@ -5,7 +5,7 @@ services:
   # 컴퓨터이름
   my-backend:
     build:
-      context: .
+      context: . # 빌드하려는 도커파일의 경로
       dockerfile: Dockerfile
     volumes:
       - ./index.js:/myfolder/index.js
