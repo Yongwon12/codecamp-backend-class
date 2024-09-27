@@ -32,15 +32,17 @@ export const makeTemplate = function (name, prefer, phone) {
 
 export const sendTemplateToEmail = async function (myEmail, template) {
   const API_GMAIL_PW = process.env.API_GMAIL_PW;
+  const EMAIL_SENDER = process.env.EMAIL_SENDER;
+  const EMAIL_USER = process.env.EMAIL_USER;
   const transporter = await nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "tjaaj159@gmail.com",
+      user: EMAIL_USER,
       pass: API_GMAIL_PW,
     },
   });
   const sendMail = await transporter.sendMail({
-    from: "tjaaj159@gmail.com",
+    from: EMAIL_SENDER,
     to: myEmail,
     subject: "가입을 환영합니다.",
     html: template,

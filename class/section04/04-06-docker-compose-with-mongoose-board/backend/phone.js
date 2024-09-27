@@ -22,12 +22,13 @@ export const getPhoneToken = function () {
 
 // 3. 휴대폰 번호에 토큰 전송하기
 export const sendPhoneTokenToSMS = async function (phoneNumber, phoneToken) {
-  const API_KEY = process.env.API_KEY;
-  const API_SECRET = process.env.API_SECRET;
-  const messageService = new mysms(API_KEY, API_SECRET);
+  const SMS_KEY = process.env.SMS_KEY;
+  const SMS_SECRET = process.env.SMS_SECRET;
+  const SMS_SENDER = process.env.SMS_SENDER;
+  const messageService = new mysms(SMS_KEY, SMS_SECRET);
   const res = await messageService.sendOne({
     to: phoneNumber,
-    from: "01040428702",
+    from: SMS_SENDER,
     text: `[코드캠프]안녕하세요. 요청하신 인증번호는 ${phoneToken}입니다.`,
   });
   console.log(res);

@@ -21,13 +21,14 @@ export const sendMessage = async function (phone, token) {
       3,
       6
     )}-${phone.slice(6, 10)}으로 인증문자가 전송되었습니다.`;
-    const API_KEY = process.env.API_KEY;
-    const API_SECRET = process.env.API_SECRET;
-    const messageService = new mysms(API_KEY, API_SECRET);
+    const SMS_KEY = process.env.SMS_KEY;
+    const SMS_SECRET = process.env.SMS_SECRET;
+    const SMS_SENDER = process.env.SMS_SENDER;
+    const messageService = new mysms(SMS_KEY, SMS_SECRET);
     await messageService
       .sendOne({
         to: phone,
-        from: "01040428702",
+        from: SMS_SENDER,
         text: `[인증번호]${token}가 전송되었습니다.`,
       })
       .then(() => {
@@ -42,13 +43,14 @@ export const sendMessage = async function (phone, token) {
       3,
       7
     )}-${phone.slice(7, 11)}으로 인증문자가 전송되었습니다.`;
-    const API_KEY = process.env.API_KEY;
-    const API_SECRET = process.env.API_SECRET;
-    const messageService = new mysms(API_KEY, API_SECRET);
+    const SMS_KEY = process.env.SMS_KEY;
+    const SMS_SECRET = process.env.SMS_SECRET;
+    const SMS_SENDER = process.env.SMS_SENDER;
+    const messageService = new mysms(SMS_KEY, SMS_SECRET);
     await messageService
       .sendOne({
         to: phone,
-        from: "01040428702",
+        from: SMS_SENDER,
         text: `[인증번호]${token}가 전송되었습니다.`,
       })
       .then(() => {

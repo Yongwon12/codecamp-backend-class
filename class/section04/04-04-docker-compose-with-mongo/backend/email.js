@@ -40,17 +40,18 @@ export const sendWelcomeTemplateToEmail = async function (
   welcomePage
 ) {
   const API_GMAIL_PW = process.env.API_GMAIL_PW;
-
+  const EMAIL_SENDER = process.env.EMAIL_SENDER;
+  const EMAIL_USER = process.env.EMAIL_USER;
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "tjaaj159@gmail.com",
+      user: EMAIL_USER,
       pass: API_GMAIL_PW,
     },
   });
 
   const res = await transporter.sendMail({
-    from: "tjaaj159@gmail.com",
+    from: EMAIL_SENDER,
     to: myEmail,
     subject: "[코드캠프] 가입을 축하합니다.",
     html: welcomePage,

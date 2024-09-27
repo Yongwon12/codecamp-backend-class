@@ -12,14 +12,14 @@ export const checkPhoneNum = function (myPhone) {
 
 export const getTokenMake = async function () {
   const token = String(Math.floor(Math.random() * 1000000)).padStart(6, "0");
-  const API_KEY = process.env.API_KEY;
-  const API_SECRET = process.env.API_SECRET;
-
-  const messageService = new mysms(API_KEY, API_SECRET);
+  const SMS_KEY = process.env.SMS_KEY;
+  const SMS_SECRET = process.env.SMS_SECRET;
+  const SMS_SENDER = process.env.SMS_SENDER;
+  const messageService = new mysms(SMS_KEY, SMS_SECRET);
   await messageService
     .sendOne({
-      to: "01040428702",
-      from: "01040428702",
+      to: SMS_SENDER,
+      from: SMS_SENDER,
       text: `안녕하세요. 인증번호는 ${token} 입니다`,
     })
     .then((res) => console.log(res))
