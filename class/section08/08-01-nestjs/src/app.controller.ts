@@ -1,6 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { switchMapTo } from 'rxjs';
 
 @Controller()
 export class AppController {
