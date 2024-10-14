@@ -1,0 +1,102 @@
+show databases
+;
+use myproject
+;
+show tables
+;
+desc product
+;
+select * from product
+;
+insert into product(id,name,description,price)
+	values(uuid(),"마우스","정말 좋은 마우스입니다.",15000)
+;
+insert into product(id,name,description,price)
+	values(uuid(),"노트북","최신 맥북",20000)
+;
+insert into product(id,name,description,price)
+	values(uuid(),"셔츠","까리한 셔츠",33000)
+;
+delete from product where name = '셔츠'
+;
+update product set price = 18000 where name = '마우스'
+;
+
+// ======= 조인 =========
+
+select * from product_sales_location
+;
+insert into product_sales_location(id,address,addressDetail,lat,lng,meetingTime)
+	values(uuid(),'구로구','구로디지털단지','37.123233','127.123321','2023-01-10')
+;
+update product set productSalesLocationId = 'e5275af2-8a16-11ef-aa7b-1407e6707b1b' where name = '마우스'
+;
+select p.id,name,price,address,addressDetail as '상세주소'
+from product p,product_sales_location ps
+where p.productSalesLocationId = ps.id
+;
+
+# ======== 추가기능들 ==========
+update product
+set isSoldout = true 
+where name = '노트북' 
+and price = 20000
+;
+
+update product
+set isSoldout = true 
+where name = '노트북' 
+or price = 20000
+;
+
+# ======== 주석 쉽게 다는 방법 ==========
+#           => update/delete에서는 가급적 사용하지 않기
+select *
+from product
+where 1=1
+and name = '마우스'
+and price = 5000
+and isSoldout = FALSE 
+;
+
+
+# ============ 복잡한 쿼리 ============
+## 집계쿼리
+# name의 price 총합 구하기
+select name, SUM(price)
+from product
+group by name
+;
+# name의 price 최대값 구하기
+select name, MAX(price)
+from product
+group by name
+
+
+## 정렬쿼리
+# price 기준으로 내림차순 정렬
+select name,price,isSoldout
+from product
+order by price desc
+
+# price 기준으로 오름차순 정렬
+select name,price,isSoldout
+from product
+order by price asc
+
+## 서브쿼리
+select name
+		price,
+		isSoldout,
+		(select max(price) from product) as maxPrice -> 서브쿼리(컬럼을 만드는 경우)
+	from product -> 여기에도 서브쿼리 들어갈 수 있음(인라인뷰: 임시테이블 만드는 경우 사용)
+	where name = '마우스' -> 여기에도 서브쿼리 들어갈 수 있음
+;
+
+## ANSI-SQL (미국 표준 협회 - SQL)
+: 데이터베이스마다 쿼리 문법이 다르기 때문에 만들어 진 것
+
+ex)
+select name, address
+from product p inner join product_sales_location ps
+	on p.productSalesLocationId = ps.id
