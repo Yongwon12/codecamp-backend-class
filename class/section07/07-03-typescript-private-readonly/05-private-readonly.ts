@@ -2,10 +2,10 @@
 
 // 몬스터 만드는 설명서(class)
 class Monster2 {
-  //   power       => public, private, protected, readonly 중 한개라도 있으면 생각가능
+  //   power       => public, private, protected, readonly 중 한개라도 있으면 생략가능
 
   constructor(private readonly power) {
-    // this.power = power   //  => public, private, protected, readonly 중 한개라도 있으면 생각가능
+    // this.power = power   //  => public, private, protected, readonly 중 한개라도 있으면 생략가능
   }
 
   attack1 = () => {
