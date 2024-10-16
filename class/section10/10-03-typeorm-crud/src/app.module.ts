@@ -5,17 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Board } from './apis/boards/entities/board.entity';
 import { ConfigModule } from '@nestjs/config';
+import { ProductsModule } from './apis/products/products.module';
 
 @Module({
     imports: [
         BoardsModule, //
-        // ProductsModule,
+        ProductsModule,
         // UsersModule,
         ConfigModule.forRoot(),
-        GraphQLModule.forRoot<ApolloDriverConfig>({
-            driver: ApolloDriver,
-            autoSchemaFile: 'src/commons/graphql/schema.gql',
-        }),
         TypeOrmModule.forRoot({
             type: process.env.DATABASE_TYPE as 'mysql',
             host: process.env.DATABASE_HOST,
