@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Post,
+    Put,
+    Query,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductInput, UpdateProductInput } from './dto/product.dto';
 import {
@@ -61,5 +69,12 @@ export class ProductsController {
         @Body() updateProductInput: UpdateProductInput,
     ): Promise<Product> {
         return this.productsService.update({ productId, updateProductInput });
+    }
+    @ApiOperation({ summary: 'Delete Product' })
+    @Delete('/product')
+    deleteProduct(
+        @Query('id') productId: string, //
+    ): Promise<boolean> {
+        return this.productsService.delete({ productId });
     }
 }
