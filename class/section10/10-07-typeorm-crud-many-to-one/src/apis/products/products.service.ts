@@ -1,10 +1,4 @@
-import {
-    BadRequestException,
-    Delete,
-    Injectable,
-    Query,
-    UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,23 +8,28 @@ import {
     IProductsServiceCreate,
     IProductsServiceFindOne,
 } from './interfaces/products-service.interface';
+import { ProductsSalesLocationsService } from '../productsSalesLocations/proudctsSalesLocations.service';
 
 @Injectable()
 export class ProductsService {
     constructor(
         @InjectRepository(Product)
         private readonly productsRepository: Repository<Product>, //
+        private readonly productSalesLocationsService: ProductsSalesLocationsService,
     ) {}
     // IProductsServiceCreate은 선택적 필드를 사용하지 않기에
     // 필드중 하나의 값이라도 없으면 400 request error 예외를 발생시킴
-    create({ createProductInput }: IProductsServiceCreate): Promise<Product> {
-        const result = this.productsRepository.save({
-            ...createProductInput,
-            // 하나 하나 직접 나열하는 방식 (하드코딩)
-            // name: '마우스',
-            // description: '좋은 마우스요',
-            // price: 3000,
-        });
+    async create({
+        createProductInput,
+    }: IProductsServiceCreate): Promise<Product> {
+        // 1. 상품만 하나만 등록할때 사용하는 방법
+        // const result = this.productsRepository.save({
+        //     ...createProductInput,
+        //     // 하나 하나 직접 나열하는 방식 (하드코딩)
+        //     // name: '마우스',
+        //     // description: '좋은 마우스요',
+        //     // price: 3000,
+        // });
         // result안에는 무엇이 담겨있을까
         // result = {
         // id: 'uuid가 담겨있을것',
@@ -38,13 +37,45 @@ export class ProductsService {
         // description: "좋은 마우스",
         // price: 3000
         // }
-        return result;
+
+        // 2. 상품과 상품거래위치를 같이 등록하는 방법
+        // rest parameter 사용하여 data를 필터링함
+        const { productSalesLocation, productCategoryId, ...product } =
+            createProductInput;
+        const result = await this.productSalesLocationsService.create({
+            productSalesLocation,
+        }); // 서비스를 타고 가야하는 이유는...?
+        //  // 레파지토리에 직접 접근하면 검증로직을 통일 시킬수 없음
+
+        const result2 = await this.productsRepository.save({
+            ...product,
+            productSalesLocation: result, // result 통째로 넣기 vs id만 빼서 넣기
+            productCategory: {
+                id: productCategoryId,
+                // 만약에, name까지 받고 싶으면?
+                // => createProductInput에 name까지 포함해서 받기
+            },
+
+            // 하나 하나 직접 나열하는 방식
+            // name: product.name,
+            // description: product.description,
+            // price: product.price,
+            // productSalesLocation: {
+            //     id: result.id,
+            // },
+        });
+        return result2;
     }
     findAll(): Promise<Product[]> {
-        return this.productsRepository.find();
+        return this.productsRepository.find({
+            relations: ['productSalesLocation', 'productCategory'],
+        });
     }
     findOne({ productId }: IProductsServiceFindOne): Promise<Product> {
-        return this.productsRepository.findOne({ where: { id: productId } });
+        return this.productsRepository.findOne({
+            where: { id: productId },
+            relations: ['productSalesLocation', 'productCategory'],
+        });
     }
 
     async update({
