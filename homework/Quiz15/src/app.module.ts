@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { ProductsModule } from './apis/products/products.module';
-import { ProductsCategoriesModule } from './apis/productsCategories/productsCategories.module';
+import { BooksModule } from './apis/books/books.module';
 
 @Module({
     imports: [
-        ProductsModule, //
-        ProductsCategoriesModule,
         // UsersModule,
+        BooksModule,
         ConfigModule.forRoot(),
         TypeOrmModule.forRoot({
             type: process.env.DATABASE_TYPE as 'mysql',

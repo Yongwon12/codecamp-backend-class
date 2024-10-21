@@ -6,6 +6,7 @@ import {
     IProductServiceUpdate,
     IProductsServiceCheckSoldOut,
     IProductsServiceCreate,
+    IProductsServiceDelete,
     IProductsServiceFindOne,
 } from './interfaces/products-service.interface';
 import { ProductsSalesLocationsService } from '../productsSalesLocations/productsSalesLocations.service';
@@ -116,7 +117,7 @@ export class ProductsService {
     }: IProductServiceUpdate): Promise<Product> {
         // 기존 있는 로직을 재사용하여, 로직을 통일하자!!
         const product = await this.findOne({ productId });
-        // 아래의 코드는 잘못된 코드임
+        // 아래의 코드는 잘못된 코드임 (기존에 동일한 로직이 있기 때문)
         // const product = await this.productsRepository.findOne({
         //     where: { id: productId },
         // });
@@ -187,7 +188,4 @@ export class ProductsService {
         return result.affected ? true : false; // affected -> 값이 있는지 없는지 판단
     } // 값이 있으면 true, 없으면 false 반환
     // !! 사용시 deleteAt 컬럼이 무조건 있어야함
-}
-interface IProductsServiceDelete {
-    productId: string;
 }
