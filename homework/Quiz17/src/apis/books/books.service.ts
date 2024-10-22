@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import {
     IBooksServiceFindOne,
     ICreateBooksServiceInput,
+    IDeleteBooksServiceInput,
+    IDeletedBooksRestoreServiceInput,
     IUpdateBooksServiceCheckSoldOut,
     IUpdateBooksServiceInput,
 } from './interface/books-service.interface';
@@ -41,5 +43,20 @@ export class BooksService {
         if (book.isSoldOut) {
             throw new UnprocessableEntityException('품절상태인 상품입니다.');
         }
+    }
+    async delete({ bookId }: IDeleteBooksServiceInput): Promise<boolean> {
+        const deleteBook = await this.booksRepository.softDelete({
+            id: bookId,
+        });
+        return deleteBook.affected ? true : false;
+    }
+    async findAllWithDeleted(): Promise<Book[]> {
+        return await this.booksRepository.find({ withDeleted: true });
+    }
+    async restore({
+        bookId,
+    }: IDeletedBooksRestoreServiceInput): Promise<boolean> {
+        const isRestore = await this.booksRepository.restore(bookId);
+        return isRestore.affected ? true : false;
     }
 }
