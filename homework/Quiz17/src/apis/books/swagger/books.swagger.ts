@@ -26,6 +26,16 @@ export const createBooksBodyConfig = () => ({
                 publicAt: '2014-05-19',
                 transBook: 'Human Acts',
                 publish: '창비',
+                detailCategoryId: {
+                    id: 'c2affa2d-01e4-4d48-86fb-c612443a0754',
+                },
+                // },
+                // subCategoryId: {
+                //     id: 'b385403e-de88-4881-8cc3-389988900888',
+                // },
+                // mainCategoryId: {
+                //     id: '905283bf-f4a6-400f-beb7-85b77e95063c',
+                // },
             },
         },
     },

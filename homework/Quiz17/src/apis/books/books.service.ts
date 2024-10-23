@@ -17,11 +17,26 @@ export class BooksService {
         @InjectRepository(Book)
         private readonly booksRepository: Repository<Book>, //
     ) {}
+
     async findAll(): Promise<Book[]> {
-        return await this.booksRepository.find();
+        return await this.booksRepository.find({
+            relations: [
+                'detailCategoryId.subCategoryId.mainCategoryId', //
+                'detailCategoryId.subCategoryId',
+                'detailCategoryId',
+            ],
+        });
     }
+
     async findOne({ bookId }: IBooksServiceFindOne): Promise<Book> {
-        return await this.booksRepository.findOne({ where: { id: bookId } });
+        return await this.booksRepository.findOne({
+            where: { id: bookId },
+            relations: [
+                'detailCategoryId.subCategoryId.mainCategoryId', //
+                'detailCategoryId.subCategoryId',
+                'detailCategoryId',
+            ],
+        });
     }
     async create({ createBookInput }: ICreateBooksServiceInput): Promise<Book> {
         return await this.booksRepository.save(createBookInput);
@@ -51,7 +66,14 @@ export class BooksService {
         return deleteBook.affected ? true : false;
     }
     async findAllWithDeleted(): Promise<Book[]> {
-        return await this.booksRepository.find({ withDeleted: true });
+        return await this.booksRepository.find({
+            withDeleted: true,
+            relations: [
+                'detailCategoryId.subCategoryId.mainCategoryId', //
+                'detailCategoryId.subCategoryId',
+                'detailCategoryId',
+            ],
+        });
     }
     async restore({
         bookId,

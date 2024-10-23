@@ -1,4 +1,4 @@
-import { IsArray } from 'class-validator';
+import { IsArray, IsObject, IsString } from 'class-validator';
 
 export class CategoriesDto {
     // @IsString()
@@ -9,4 +9,26 @@ export class CategoriesDto {
     // detailCategory: string;
     @IsArray()
     category: string[];
+}
+
+export class CreateDetailCategories {
+    @IsString()
+    id: string;
+    @IsString()
+    category: string;
+}
+
+export class CreateSubCategories {
+    @IsString()
+    id: string;
+    @IsString()
+    category: string;
+    detailCategory: CreateDetailCategories;
+}
+export class CreateMainCategories {
+    @IsString()
+    id: string;
+    @IsString()
+    category: string;
+    subCategory: CreateSubCategories;
 }
