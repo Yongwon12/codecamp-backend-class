@@ -29,13 +29,7 @@ export const createBooksBodyConfig = () => ({
                 detailCategoryId: {
                     id: 'c2affa2d-01e4-4d48-86fb-c612443a0754',
                 },
-                // },
-                // subCategoryId: {
-                //     id: 'b385403e-de88-4881-8cc3-389988900888',
-                // },
-                // mainCategoryId: {
-                //     id: '905283bf-f4a6-400f-beb7-85b77e95063c',
-                // },
+                authors: ['한강 저', '용원 저', '포돌 저'],
             },
         },
     },

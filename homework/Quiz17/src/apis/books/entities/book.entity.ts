@@ -34,7 +34,6 @@ export class Book {
     @Column({ default: false })
     isSoldOut: boolean;
     @ManyToOne(() => DetailCategory)
-    // @JoinColumn({ name: 'detailCategoryId' })
     detailCategoryId: DetailCategory;
     @JoinTable()
     @ManyToMany(() => Author, (authors) => authors.books)

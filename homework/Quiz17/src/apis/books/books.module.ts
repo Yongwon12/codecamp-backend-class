@@ -6,6 +6,8 @@ import { BooksController } from './books.controller';
 import { DetailCategory } from '../categories/entities/detailCategory.entity';
 import { SubCategory } from '../categories/entities/subCategory.entity';
 import { MainCategory } from '../categories/entities/mainCategory.entity';
+import { AuthorsService } from '../authors/authors.service';
+import { Author } from '../authors/entities/author.entity';
 
 @Module({
     imports: [
@@ -14,9 +16,10 @@ import { MainCategory } from '../categories/entities/mainCategory.entity';
             DetailCategory,
             SubCategory,
             MainCategory,
+            Author,
         ]),
     ],
     controllers: [BooksController],
-    providers: [BooksService],
+    providers: [BooksService, AuthorsService],
 })
 export class BooksModule {}

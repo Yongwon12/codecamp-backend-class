@@ -1,7 +1,7 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
-import { Repository } from 'typeorm';
+import { AutoEncryptionLoggerLevel, Repository } from 'typeorm';
 import {
     IBooksServiceFindOne,
     ICreateBooksServiceInput,
@@ -10,12 +10,14 @@ import {
     IUpdateBooksServiceCheckSoldOut,
     IUpdateBooksServiceInput,
 } from './interface/books-service.interface';
+import { AuthorsService } from '../authors/authors.service';
 
 @Injectable()
 export class BooksService {
     constructor(
         @InjectRepository(Book)
         private readonly booksRepository: Repository<Book>, //
+        private readonly authorsService: AuthorsService,
     ) {}
 
     async findAll(): Promise<Book[]> {
@@ -24,6 +26,7 @@ export class BooksService {
                 'detailCategoryId.subCategoryId.mainCategoryId', //
                 'detailCategoryId.subCategoryId',
                 'detailCategoryId',
+                'authors',
             ],
         });
     }
@@ -35,11 +38,29 @@ export class BooksService {
                 'detailCategoryId.subCategoryId.mainCategoryId', //
                 'detailCategoryId.subCategoryId',
                 'detailCategoryId',
+                'authors',
             ],
         });
     }
     async create({ createBookInput }: ICreateBooksServiceInput): Promise<Book> {
-        return await this.booksRepository.save(createBookInput);
+        const { authors, detailCategoryId, ...createBookInputExcluded } =
+            createBookInput;
+
+        const temp = [];
+        authors.forEach((author) => {
+            temp.push({ author });
+        });
+
+        const bookAuthors = await this.authorsService.create({ authors: temp });
+        const bookAuthorsInfo = [...bookAuthors.identifiers];
+        console.log(...bookAuthors.identifiers);
+        return await this.booksRepository.save({
+            ...createBookInputExcluded,
+            detailCategoryId: {
+                id: detailCategoryId.id,
+            },
+            authors: bookAuthorsInfo,
+        });
     }
     async update({
         bookId,

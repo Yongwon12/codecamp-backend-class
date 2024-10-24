@@ -8,6 +8,7 @@ import {
     IsObject,
     IsString,
 } from 'class-validator';
+import { CreateAuthorInput } from 'src/apis/authors/dto/author.dto';
 import { Author } from 'src/apis/authors/entities/author.entity';
 import { DetailCategory } from 'src/apis/categories/entities/detailCategory.entity';
 import { MainCategory } from 'src/apis/categories/entities/mainCategory.entity';
@@ -26,7 +27,8 @@ export class CreateBookInput {
     readonly transBook: string;
     @IsString()
     readonly publish: string;
-
+    @IsArray()
+    readonly authors: CreateAuthorInput[];
     @IsObject()
     readonly detailCategoryId: DetailCategory;
 }
